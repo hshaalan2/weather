@@ -1,108 +1,140 @@
-var userFormEl = document.querySelector('#user-form');
-var languageButtonsEl = document.querySelector('#language-buttons');
-var nameInputEl = document.querySelector('#username');
-var repoContainerEl = document.querySelector('#repos-container');
-var repoSearchTerm = document.querySelector('#repo-search-term');
+//as I get better with jquery I realized I don't need that many const when I can just use $('#id') but that is what I have for now
+const searchBtn = document.getElementById("search");
+const nameInputEl = document.getElementById("cityname");
+const cityName = document.getElementById("city-name");
+const temperature = document.getElementById("temperature");
+const humidity = document.getElementById("humidity");
+const wind = document.getElementById("wind");
+const uvIndex = document.getElementById("uv-value");
+const today = document.getElementById("today");
+const icon = document.getElementById("icon");
+const appId = "f05a2f8113996a536e6a20f88d375781";
+let cityLat = '';
+let cityLon =  '';
+let uviRequestUrlDraft = 'http://api.openweathermap.org/data/2.5/uvi?';
+let uviRequestUrlFinal = '';
 
-var formSubmitHandler = function (event) {
-  event.preventDefault();
 
-  var username = nameInputEl.value.trim();
 
-  if (username) {
-    getUserRepos(username);
+//function call weather api
+function getApi(event) {
+    event.preventDefault()
+    let requestUrl = "https://api.openweathermap.org/data/2.5/forecast?q=fairfax,va,us&units=imperial&appid=f05a2f8113996a536e6a20f88d375781"
 
-    repoContainerEl.textContent = '';
-    nameInputEl.value = '';
-  } else {
-    alert('Please enter a GitHub username');
-  }
-};
-
-var buttonClickHandler = function (event) {
-  // `event.target` is a reference to the DOM element of what programming language button was clicked on the page
-  var language = event.target.getAttribute('data-language');
-
-  // If there is no language read from the button, don't attempt to fetch repos
-  if (language) {
-    getFeaturedRepos(language);
-
-    repoContainerEl.textContent = '';
-  }
-};
-
-var getUserRepos = function (user) {
-  var apiUrl = 'https://api.github.com/users/' + user + '/repos';
-
-  fetch(apiUrl)
-    .then(function (response) {
-      if (response.ok) {
-        console.log(response);
-        response.json().then(function (data) {
-          console.log(data);
-          displayRepos(data, user);
-        });
-      } else {
-        alert('Error: ' + response.statusText);
+    fetch(requestUrl)
+      .then(function (response) {
+          return response.json();
       }
-    })
-    .catch(function (error) {
-      alert('Unable to connect to GitHub');
-    });
-};
+      )
+      .then(function (data) {
+          console.log(data);
 
-var getFeaturedRepos = function (language) {
-  // The `q` parameter is what language we want to query, the `+is:featured` flag adds a filter to return only featured repositories
-  // The `sort` parameter will instruct GitHub to respond with all of the repositories in order by the number of issues needing help
-  var apiUrl = 'https://api.github.com/search/repositories?q=' + language + '+is:featured&sort=help-wanted-issues';
+          //capturing current day's city name, temp, humidity,and wind speed then populating to html element 
+          cityName.textContent = (data.city.name + ", " + data.city.country);
+          temperature.textContent = ("Temperature: " + data.list[0].main.temp + " °F");
+          humidity.textContent = ("Humidity: " + data.list[0].main.humidity + " %");
+          wind.textContent = ("Wind Speed: " + data.list[0].wind.speed + " MPH");
 
-  fetch(apiUrl).then(function (response) {
-    if (response.ok) {
-      response.json().then(function (data) {
-        displayRepos(data.items, language);
-      });
-    } else {
-      alert('Error: ' + response.statusText);
+          //appending the correct image file to the icon element. I would have to write 18 if statements to get the correct icon image based on the icon value returned from the api. Scheduled tutor tomorrow 3/23/21. 
+          if (data.list[0].weather[0].icon === "02d" ) {
+            $('#icon').append($('<img src="http://openweathermap.org/img/wn/01d.png" alt="Sunny"></img>'))
+          }
+          else {
+            $('#icon').append($('<img src="http://openweathermap.org/img/wn/02d.png" alt="Sunny"></img>'))  
+          }
+
+          //capturing city's long and lat and storing in global varible to later run a second api call to get UV index
+          cityLat = data.city.coord.lat
+          cityLon =  data.city.coord.lon
+          uviRequestUrlFinal = (uviRequestUrlDraft + 'lat=' + cityLat + '&lon=' + cityLon + '&appID=' + appId)
+
+          //capturing next day's date, temp, humidity
+          //first convert dt_text format using moment to friendly format mm/dd/yy
+          let day1Date = moment(data.list[2].dt_txt).format("MM/DD/YYYY")
+          $('#day1-date').text(day1Date);
+          //To DO: add icon
+          $('#day1-temp').text("Temp: " + data.list[2].main.temp + " °F");
+          $('#day1-humidity').text("Humidity: " +data.list[2].main.humidity + " %");
+         //capturing second day's date, temp, humidity
+         //first convert dt_text format using moment to friendly format mm/dd/yy
+          let day2Date = moment(data.list[10].dt_txt).format("MM/DD/YYYY")
+          $('#day2-date').text(day2Date);
+          //To DO: add icon
+          $('#day2-temp').text("Temp: " + data.list[10].main.temp + " °F");
+          $('#day2-humidity').text("Humidity: " +data.list[10].main.humidity + " %");
+         //capturing third day's date, temp, humidity
+         //first convert dt_text format using moment to friendly format mm/dd/yy
+          let day3Date = moment(data.list[18].dt_txt).format("MM/DD/YYYY")
+          $('#day3-date').text(day3Date);
+          //To DO: add icon
+          $('#day3-temp').text("Temp: " + data.list[18].main.temp + " °F");
+          $('#day3-humidity').text("Humidity: " +data.list[18].main.humidity + " %");
+         //capturing fourth day's date, temp, humidity
+         //first convert dt_text format using moment to friendly format mm/dd/yy
+          let day4Date = moment(data.list[26].dt_txt).format("MM/DD/YYYY")
+          $('#day4-date').text(day4Date);
+          //To DO: add icon
+          $('#day4-temp').text("Temp: " + data.list[26].main.temp + " °F");
+          $('#day4-humidity').text("Humidity: " +data.list[26].main.humidity + " %");
+         //capturing fifth day's date, temp, humidity
+         //first convert dt_text format using moment to friendly format mm/dd/yy
+          let day5Date = moment(data.list[34].dt_txt).format("MM/DD/YYYY")
+          $('#day5-date').text(day5Date);
+          //To DO: add icon
+          $('#day5-temp').text("Temp: " + data.list[34].main.temp + " °F");
+          $('#day5-humidity').text("Humidity: " +data.list[34].main.humidity + " %");
+          //function to populate icon image based on icon value returned
+      } )
+
+      //making second api call to get the uvi index based on the lon and lat we captured earlier
+      .then(function getUviApi() {
+        fetch(uviRequestUrlFinal)
+          .then(function (response) {
+              return response.json();
+          }
+          )
+          .then(function (data) {
+          uvIndex.textContent = (data.value)
+          let uvValue = data.value;
+          
+          //now styling the UV element with apporpriate color codes
+          if ((uvValue > 0) && (uvValue <= 2)) {
+            $('#uv-value').css('background-color', 'green')
+            $('#uv-value').css('color', 'white')
+          }
+          else if ((uvValue >= 3) && (uvValue <= 5)) {
+            $('#uv-value').css('background-color', 'yellow')
+            $('#uv-value').css('color', 'white')
+          }
+          else if ((uvValue >= 6) && (uvValue <= 7)) {
+            $('#uv-value').css('background-color', 'red')
+            $('#uv-value').css('color', 'white')
+          }
+          else if ((uvValue >= 8) && (uvValue <= 10)) {
+            $('#uv-value').css('background-color', 'violet')
+            $('#uv-value').css('color', 'white')
+          }
+          else if (uvValue >=11) {
+            $('#uv-value').css('background-color', 'purple')
+            $('#uv-value').css('color', 'white')
+          }
+            } 
+            ) 
     }
-  });
+      )
+      
+      //running the function to display today's date using moment.js format
+      displayToday();
 };
 
-var displayRepos = function (repos, searchTerm) {
-  if (repos.length === 0) {
-    repoContainerEl.textContent = 'No repositories found.';
-    // Without a `return` statement, the rest of this function will continue to run and perhaps throw an error if `repos` is empty
-    return;
-  }
+//event listener to fire up api function upon clicking search 
+searchBtn.addEventListener('click', getApi);
 
-  repoSearchTerm.textContent = searchTerm;
+//display current date using moment.js 
+function displayToday (event) {
+    // event.preventDefault();
+    let todayDate = moment().format('dddd, MMM DD, YYYY');
+    today.textContent = (" (" + todayDate) +")";
+    };
 
-  for (var i = 0; i < repos.length; i++) {
-    // The result will be `<github-username>/<github-repository-name>`
-    var repoName = repos[i].owner.login + '/' + repos[i].name;
 
-    var repoEl = document.createElement('div');
-    repoEl.classList = 'list-item flex-row justify-space-between align-center';
-
-    var titleEl = document.createElement('span');
-    titleEl.textContent = repoName;
-
-    repoEl.appendChild(titleEl);
-
-    var statusEl = document.createElement('span');
-    statusEl.classList = 'flex-row align-center';
-
-    if (repos[i].open_issues_count > 0) {
-      statusEl.innerHTML =
-        "<i class='fas fa-times status-icon icon-danger'></i>" + repos[i].open_issues_count + ' issue(s)';
-    } else {
-      statusEl.innerHTML = "<i class='fas fa-check-square status-icon icon-success'></i>";
-    }
-
-    repoEl.appendChild(statusEl);
-
-    repoContainerEl.appendChild(repoEl);
-  }
-};
-
-userFormEl.addEventListener('submit', formSubmitHandler);
-languageButtonsEl.addEventListener('click', buttonClickHandler);
