@@ -13,25 +13,13 @@ let cityLat = '';
 let cityLon =  '';
 let uviRequestUrlDraft = 'http://api.openweathermap.org/data/2.5/uvi?';
 let uviRequestUrlFinal = '';
-let requestUrlStart = 'http://api.openweathermap.org/data/2.5/forecast?q=';
-let requestUrlEnd= '&units=imperial&appid=f05a2f8113996a536e6a20f88d375781';
 
-//function to capture city entered by user
-let formSubmitHandler  = function(event) {
-  event.preventDefault();
-  let selectCity = nameInputEl.value.trim();
-  if(selectCity) {
-    console.log(selectCity);
-    nameInputEl.value = '';
-  } else {
-    console.log("You must enter a city name or select from auto complete list")
-  }
-  let requestUrl = (requestUrlStart + selectCity + requestUrlEnd);
-  console.log(requestUrl);
-  getApi();
 
-  function getApi() {
-    // let requestUrl = "https://api.openweathermap.org/data/2.5/forecast?q=fairfax,va,us&units=imperial&appid=f05a2f8113996a536e6a20f88d375781"
+
+//function call weather api
+function getApi(event) {
+    event.preventDefault()
+    let requestUrl = "https://api.openweathermap.org/data/2.5/forecast?q=fairfax,va,us&units=imperial&appid=f05a2f8113996a536e6a20f88d375781"
 
     fetch(requestUrl)
       .then(function (response) {
@@ -110,19 +98,19 @@ let formSubmitHandler  = function(event) {
           let uvValue = data.value;
           
           //now styling the UV element with apporpriate color codes
-          if ((uvValue > 0) && (uvValue <= 2.99)) {
+          if ((uvValue > 0) && (uvValue <= 2)) {
             $('#uv-value').css('background-color', 'green')
             $('#uv-value').css('color', 'white')
           }
-          else if ((uvValue >= 3) && (uvValue <= 5.99)) {
+          else if ((uvValue >= 3) && (uvValue <= 5)) {
             $('#uv-value').css('background-color', 'yellow')
-            $('#uv-value').css('color', 'black')
+            $('#uv-value').css('color', 'white')
           }
-          else if ((uvValue >= 6) && (uvValue <= 7.99)) {
+          else if ((uvValue >= 6) && (uvValue <= 7)) {
             $('#uv-value').css('background-color', 'red')
             $('#uv-value').css('color', 'white')
           }
-          else if ((uvValue >= 8) && (uvValue <= 10.99)) {
+          else if ((uvValue >= 8) && (uvValue <= 10)) {
             $('#uv-value').css('background-color', 'violet')
             $('#uv-value').css('color', 'white')
           }
@@ -138,16 +126,9 @@ let formSubmitHandler  = function(event) {
       //running the function to display today's date using moment.js format
       displayToday();
 };
-}
-
-
-
-//function call weather api
-
 
 //event listener to fire up api function upon clicking search 
-// searchBtn.addEventListener('click', getApi);
-searchBtn.addEventListener('click', formSubmitHandler);
+searchBtn.addEventListener('click', getApi);
 
 //display current date using moment.js 
 function displayToday (event) {
@@ -157,33 +138,3 @@ function displayToday (event) {
     };
 
 
-//jquery auto complete function. Not necessary, maybe we will add major cities
-// $( function() {
-//   var availableCities = [
-//     "ActionScript",
-//     "AppleScript",
-//     "Asp",
-//     "BASIC",
-//     "C",
-//     "C++",
-//     "Clojure",
-//     "COBOL",
-//     "ColdFusion",
-//     "Erlang",
-//     "Fortran",
-//     "Groovy",
-//     "Haskell",
-//     "Java",
-//     "JavaScript",
-//     "Lisp",
-//     "Perl",
-//     "PHP",
-//     "Python",
-//     "Ruby",
-//     "Scala",
-//     "Scheme"
-//   ];
-//   $( "#cityname" ).autocomplete({
-//     source: availableCities
-//   });
-// } );
