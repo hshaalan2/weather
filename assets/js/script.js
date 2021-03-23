@@ -9,25 +9,41 @@ const uvIndex = document.getElementById("uv-value");
 const today = document.getElementById("today");
 const icon = document.getElementById("icon");
 const appId = "f05a2f8113996a536e6a20f88d375781";
+const historyEl = document.getElementById("history");
 let cityLat = '';
 let cityLon =  '';
 let uviRequestUrlDraft = 'http://api.openweathermap.org/data/2.5/uvi?';
 let uviRequestUrlFinal = '';
 let requestUrlStart = 'http://api.openweathermap.org/data/2.5/forecast?q=';
 let requestUrlEnd= '&units=imperial&appid=f05a2f8113996a536e6a20f88d375781';
+let history = [];
 
 //function to capture city entered by user
 let formSubmitHandler  = function(event) {
   event.preventDefault();
   let selectCity = nameInputEl.value.trim();
   if(selectCity) {
-    console.log(selectCity);
     nameInputEl.value = '';
   } else {
     console.log("You must enter a city name or select from auto complete list")
   }
+    //preparing for local storage. First capturing all previous city entires into an array. Next will test populating to history element and once successful will save to local storage then populate history with a for loop
+    history.push(selectCity);
+    console.log(history);
+    // historyEl.append(selectCity)
+    // let historyNew = document.createElement("br")
+    // historyEl.appendChild(historyNew)
+   
+    //using localstorage.setitem to store entire array to local storage. it worked !!!
+    localStorage.setItem("history", history)
+    ////now use a get item function to pull local storage date and populate into history element
+
+
+    
+      // historyEl.append(selectCity)
+    // let historyNew = document.createElement("br")
+    // historyEl.appendChild(historyNew)
   let requestUrl = (requestUrlStart + selectCity + requestUrlEnd);
-  console.log(requestUrl);
   getApi();
 
   function getApi() {
@@ -39,7 +55,6 @@ let formSubmitHandler  = function(event) {
       }
       )
       .then(function (data) {
-          console.log(data);
 
           //capturing current day's city name, temp, humidity,and wind speed then populating to html element 
           cityName.textContent = (data.city.name + ", " + data.city.country);
