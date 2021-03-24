@@ -16,7 +16,11 @@ let uviRequestUrlDraft = 'http://api.openweathermap.org/data/2.5/uvi?';
 let uviRequestUrlFinal = '';
 let requestUrlStart = 'http://api.openweathermap.org/data/2.5/forecast?q=';
 let requestUrlEnd= '&units=imperial&appid=f05a2f8113996a536e6a20f88d375781';
+//fixing local storage items getting lost on refresh because of this array variable running on load every time
+// if (localStorage.getItem("City") != null) {}
 let cityHistory = [];
+
+
 
 //get the last 10 city search history items from localstorage if it exists
 function init() {
