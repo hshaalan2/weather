@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- We need to ensure the other styles are loaded before our stylesheet utilizes them -->
+  <link rel="shortcut icon" href="#">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
   <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i,700&display=swap" rel="stylesheet">
@@ -24,7 +25,7 @@
       <!-- The `<i>` element is for icons. These classes come from the Font Awesome font icon library. -->
       <i class="fas fa-cloud-sun"></i> Weather Dashboard!
     </h1>
-    <p>Search over 200,000 cities to see a detailed 5-day forecast!</p>
+    <p><strong>Search over 200,000 cities for a detailed 5-day forecast!</strong> </p>
   </header>
 
 
@@ -32,18 +33,17 @@
     <div class="col-12 col-md-3">
 
       <div class="card">
-        <h3 class="card-header text-uppercase">Search By City</h3>
+        <h3 class="card-header">Search for a city</h3>
         <form id="user-form" class="card-body">
           <label class="form-label" for="cityname"></label>
           <input name="cityname" id="cityname" type="text" autofocus="true" class="form-input" />
-          <button type="submit" class="btn" id="search">Search</button>
+          <button type="submit" class="btn" id="search"><i class="fa fa-search"></i></button>
         </form>
       </div>
 
-      <div class="card">
-        <h3 class="card-header text-uppercase">History</h3>
-        <div id="history" class="card-body">
-
+      <div id="city-div" class="card">
+        <h3 class="card-header">History</h3>
+        <div id="history" class="card-city">
         </div>
       </div>
     </div>
@@ -53,10 +53,10 @@
       <div id="repos-container" class="list-group">
         <ul class="list-group">
           <h4><span></span><span></span> </h4>
-          <li id="temperature" class="list-group-item list-group-item-success legend">Temperature</li>
-          <li id="humidity" class="list-group-item list-group-item-success legend">Humidity</li>
-          <li id="wind" class="list-group-item list-group-item-success legend">Wind Speed</li>
-          <li id="uvi" class="list-group-item list-group-item-success legend">UV Index: <span id="uv-value">value</span></li>
+          <li id="temperature" class="list-group-item list-group-item-light legend">Temperature</li>
+          <li id="humidity" class="list-group-item list-group-item-light legend">Humidity</li>
+          <li id="wind" class="list-group-item list-group-item-light legend">Wind Speed</li>
+          <li id="uvi" class="list-group-item list-group-item-light legend">UV Index: <span id="uv-value">value</span></li>
         </ul>
         <hr>
         <h3>5 Day Forecast</h3>

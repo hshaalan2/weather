@@ -3,7 +3,8 @@
     --secondary: #9caea9;
     --tertiary: #787885;
     --light-dark: #6f6866;
-    --dark: #38302e;
+    /* --dark: #38302e; */
+    --dark: #1247b8;
     --border-radius: 0.3rem;
   }
   
@@ -12,7 +13,7 @@
   }
 
   .col-md-2 {
-    background-color:rgb(13, 104, 241);
+    background-color: var(--dark);
     color: white;
     margin: 10px;
   }
@@ -64,7 +65,7 @@
     color: var(--primary);
     border: none;
     outline: none;
-    background-color: var(--light-dark);
+    background-color: var(--dark);
   
     /* The button will appear to be pressed on hover by translating its position and shrinking its box-shadow */
     box-shadow: 3px 3px var(--dark);
@@ -78,6 +79,32 @@
     box-shadow: 2px 2px var(--dark);
   }
   
+  /*add new btn classes for history buttons */
+  .btn2 {
+    font-size: 1.3rem;
+    text-decoration: none;
+    padding: 6px 5px;
+    width: 100%;
+    display: block;
+    margin: 5px 0;
+    border-radius: var(--border-radius);
+    color: var(--primary);
+    border: none;
+    outline: none;
+    text-align: left;
+    /* background-color: var(--dark); */
+  
+    /* The button will appear to be pressed on hover by translating its position and shrinking its box-shadow */
+    box-shadow: 3px 3px var(--dark);
+    transform: translate(-1px, -1px);
+  }
+  
+  .btn2:hover {
+    /* color: var(--primary); */
+    background-color: var(--tertiary);
+    transform: translate(0, 0);
+    box-shadow: 2px 2px var(--dark);
+  }
   .btn-inline {
     display: inline;
   }
@@ -109,6 +136,7 @@
     padding: 3% 4%;
     background-color: var(--dark);
     color: var(--primary);
+    background-image: url("/assets/images/wide-banner-day3.jpg")
   }
   
   .hero p {
@@ -176,6 +204,9 @@
     padding: 2.5%;
   }
   
+  .card-city {
+    padding: 2.5%;
+  }
   /* FORM */
   .form-label,
   .form-input,
