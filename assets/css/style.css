@@ -88,7 +88,7 @@
     display: block;
     margin: 5px 0;
     border-radius: var(--border-radius);
-    color: var(--primary);
+    /* color: var(--primary); */
     border: none;
     outline: none;
     text-align: left;
