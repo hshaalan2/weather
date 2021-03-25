@@ -12,9 +12,9 @@ const appId = "f05a2f8113996a536e6a20f88d375781";
 const historyEl = document.getElementById("history");
 let cityLat = '';
 let cityLon =  '';
-let uviRequestUrlDraft = 'http://api.openweathermap.org/data/2.5/uvi?';
+let uviRequestUrlDraft = 'https://api.openweathermap.org/data/2.5/uvi?';
 let uviRequestUrlFinal = '';
-let requestUrlStart = 'http://api.openweathermap.org/data/2.5/forecast?q=';
+let requestUrlStart = 'https://api.openweathermap.org/data/2.5/forecast?q=';
 let requestUrlEnd= '&units=imperial&appid=f05a2f8113996a536e6a20f88d375781';
 let getHistory = JSON.parse(localStorage.getItem("City")) || []
 let rememberCity = "";
