@@ -16,8 +16,10 @@ let uviRequestUrlDraft = 'https://api.openweathermap.org/data/2.5/uvi?';
 let uviRequestUrlFinal = '';
 let requestUrlStart = 'https://api.openweathermap.org/data/2.5/forecast?q=';
 let requestUrlEnd= '&units=imperial&appid=f05a2f8113996a536e6a20f88d375781';
+let requestUrl = null
 let getHistory = JSON.parse(localStorage.getItem("City")) || []
 let rememberCity = "";
+let historyCall = false;
 
 
 //get the last 10 city search history items from localstorage if it exists
@@ -34,6 +36,9 @@ function init() {
   function clickHistory () {
     let cityValue = $(this).text();
     console.log(cityValue);
+    rememberCity = cityValue;
+    historyCall = true;
+    formSubmitHandler(event);
   }
   //event listener to fire clickHistory function
   $('.btn2').on('click', clickHistory) 
@@ -45,8 +50,16 @@ let formSubmitHandler  = function(event) {
   event.preventDefault();
   let selectCity = nameInputEl.value.trim();
   nameInputEl.value = '';
-  //constructing URL using 2 constants and 1 variable 
-  let requestUrl = (requestUrlStart + selectCity + requestUrlEnd);
+  //constructing URL using 2 constants and 1 variable
+  if (!historyCall) {
+    requestUrl = (requestUrlStart + selectCity + requestUrlEnd);
+  } 
+  else if (historyCall) {
+    requestUrl = (requestUrlStart + rememberCity + requestUrlEnd);
+    historyCall = false;
+  }
+
+  
   getApi();
 
   //LOCAL STORAGE: store last city in an array and keep max number to 10 using an if else statment and the shift method to purge the first item
