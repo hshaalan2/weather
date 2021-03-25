@@ -136,7 +136,7 @@
     padding: 3% 4%;
     background-color: var(--dark);
     color: var(--primary);
-    background-image: url("/assets/images/wide-banner-day3.jpg")
+    /* background-image: url("/assets/images/wide-banner-day3.jpg") */
   }
   
   .hero p {
