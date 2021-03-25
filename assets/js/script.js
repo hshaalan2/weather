@@ -44,10 +44,16 @@ function init() {
   $('.btn2').on('click', clickHistory) 
 }
 
+//hide weather section on right until user searches or clicks history item
+function hideEl () {
+  $('.col-md-9').hide()
+}
+
 
 //main function that captures user input and runs getApi functions to return city weather
 let formSubmitHandler  = function(event) {
   event.preventDefault();
+  $('.col-md-9').show()
   let selectCity = nameInputEl.value.trim();
   nameInputEl.value = '';
   //constructing URL using 2 constants and 1 variable
@@ -203,6 +209,9 @@ searchBtn.addEventListener('click', formSubmitHandler);
 
 //calling history function to set and get items in local storage
 init();
+
+//calling hide function to hide weather section until user performs an action
+hideEl();
 
 //defining function to display current date using moment.js 
 function displayToday (event) {
