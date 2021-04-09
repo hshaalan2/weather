@@ -27,3 +27,15 @@ Now that we have retrieved the last 10 search cities form local storage and popu
 6- Moment.js
 Used moment to display today's date next to the city's name as well as convert the date value we got from the api for the 5 day forecast into the format matching the mockup provided by instructor. 
 
+![weather1](https://user-images.githubusercontent.com/77016211/114246576-f6b68900-9960-11eb-8fc2-fca5ac02ed60.png)
+![weather2](https://user-images.githubusercontent.com/77016211/114246580-f918e300-9960-11eb-8a3c-0d210b4f9231.png)
+![weather3](https://user-images.githubusercontent.com/77016211/114246589-fc13d380-9960-11eb-8a63-44e6fa2c9e73.png)
+
+
+
+
+
+
+
+
+
